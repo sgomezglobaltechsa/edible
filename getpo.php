@@ -22,7 +22,11 @@ $session = uniqid();
 //=======================================================================================================
 //Declaracion de funciones.
 //=======================================================================================================
-
+function limpiarString($texto)
+{
+      $textoLimpio = preg_replace('([^A-Za-z0-9-"])', '', $texto);	     					
+      return $textoLimpio;
+}
 
 //---------------------------------------------------------------------------------
 //Instancia de objetos.
@@ -33,7 +37,11 @@ $gen = new generales();
 
 $edi->SetUsuario($login);
 $edi->SetPassword($password);
+$edi->SetSession($session);
+$edi->SetDpt($dpt);
 $dpt->Session($session);
+
+
 
 //================================================================
 $gen->IDebug(0);    //0. No quiero ver los printsc.
@@ -54,8 +62,6 @@ if ($edi->GetToken($verror) == false) {
 
 } //fin: if($edi->GetToken($verror)
 
-ob_start();
-ob_end_clean();
 //=================================================================================
 //Obtengo las po del w.s. Rest.
 //=================================================================================
@@ -140,14 +146,15 @@ if ($edi->GetPO_Orders($POrders, $verror) == false) {
             echo 'Excepción capturada: ', $e->getMessage(), "\n";
 
         } //fin: try
-
+        
         //Para debug, interrupcion de la interfaz para desarrollo.
+        /*
         if ($i == 2) {
 
             break;
 
         } //fin: if($i==1)
- 
+        */
     } //fin: for($i=0; $i<$POrders; $i++)
 
 } //fin: if($edi->GetPO_Orders($POrders, $verror)==false)

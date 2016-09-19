@@ -8,11 +8,13 @@ class edible
     private $service_PurchaseOrders         ="https://transapi.edible-online.com/Api/PurchaseOrders";
     private $service_PurchaseOrdersDetail   ="https://transapi.edible-online.com/Api/PurchaseOrders/";
     private $service_PurchaseOrderLock      ="https://transapi.edible-online.com/Api/PurchaseOrders/";
-    private $service_PurchaseOrderUnLock    ="https://transapi.edible-online.com/Api/PurchaseOrders/unlock/";
+    private $service_PurchaseOrderUnLock    ="https://transapi.edible-online.com/Api/PurchaseOrders/unlock/023794";
     private $service_PurchaseOrderReceive   ="https://transapi.edible-online.com/Api/PurchaseOrders/receive";
     private $Usr="";
     private $password="";
     private $token="";
+    private $_session;
+    private $_dpt;
     //=======================================================================================================    
     //Declaracion de Propiedades.
     //=======================================================================================================
@@ -34,6 +36,12 @@ class edible
     public function SetTokenID($value){
         $this->token=$value;
     }    
+    public function SetSession($value){
+        $this->_session=$value;
+    }
+    public function SetDpt($value){
+        $this->_dpt=$value;
+    }
     //=======================================================================================================
     //Declaracion de metodos.
     //=======================================================================================================    
@@ -90,6 +98,7 @@ class edible
             }
         }catch (Exception $e) {
             $error= 'Excepción capturada: '.$e->getMessage()."\n";
+            $this->_dpt->GuardarLog("EDIBLE","GetToken","ERR",$error,NULL);
             return false;
         }//fin: try         
     }   
@@ -128,6 +137,7 @@ class edible
             }       
         }catch (Exception $e) {
             $verror= 'Excepción capturada: '.$e->getMessage()."\n";
+            $this->_dpt->GuardarLog("EDIBLE","GetPO_Orders","ERR",$error,NULL);
             return false;
         }//fin: try              
     }
@@ -166,14 +176,16 @@ class edible
             }   
         }catch (Exception $e) {
             $verror= 'Excepción capturada: '.$e->getMessage()."\n";
+            $this->_dpt->GuardarLog("EDIBLE","GetPO_OrderDetail","ERR",$error,NULL);
             return false;
         }//fin: try             
     }
     //=======================================================================================================       
     public function PO_lockPurchaseOrder($PONumber, &$verror){
         try{
+
             $curl = curl_init();
-            
+
             curl_setopt_array($curl, array(
               CURLOPT_URL => $this->service_PurchaseOrderLock.$PONumber,
               CURLOPT_RETURNTRANSFER => true,
@@ -182,7 +194,7 @@ class edible
               CURLOPT_TIMEOUT => 30,
               CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
               CURLOPT_CUSTOMREQUEST => "PUT",
-              CURLOPT_POSTFIELDS => "{\n    \"username\": \"".$this->Usr."\",\n    \"password\": \"".$this->password."\"\n}",
+              CURLOPT_POSTFIELDS =>"",
               CURLOPT_HTTPHEADER => array(
                 "authorization: ".$this->token,
                 "cache-control: no-cache",
@@ -194,8 +206,6 @@ class edible
             $err = curl_error($curl);
             
             curl_close($curl);
-            echo "Retorno Lock</br>";
-            var_dump(json_decode($response));
             
             if ($err) {
                 
@@ -208,7 +218,7 @@ class edible
                 return true;
             }   
         }catch (Exception $e) {
-            $verror= 'Excepción capturada: '.$e->getMessage()."\n";
+            $this->_dpt->GuardarLog("EDIBLE","PO_lockPurchaseOrder","ERR",$error,NULL);
             return false;
         }//fin: try             
     }    
@@ -216,9 +226,9 @@ class edible
     public function PO_UnlockPurchaseOrder($PONumber, &$verror){
         try{
             $curl = curl_init();
-            
             curl_setopt_array($curl, array(
-              CURLOPT_URL => $this->service_PurchaseOrderUnLock.$PONumber,
+              //CURLOPT_URL => $this->service_PurchaseOrderUnLock.$PONumber,
+              CURLOPT_URL => $this->service_PurchaseOrderUnLock,
               CURLOPT_RETURNTRANSFER => true,
               CURLOPT_ENCODING => "",
               CURLOPT_MAXREDIRS => 10,
@@ -234,10 +244,11 @@ class edible
             ));
             
             $response = curl_exec($curl);
+            
             $err = curl_error($curl);
             
             curl_close($curl);
-            
+        
             if ($err) {
                 
                 $verror=$err;
@@ -246,22 +257,18 @@ class edible
                 
             } else {
                 
-                //echo "Retorno PO_UnlockPurchaseOrder </br>";
-                
-                //var_dump(json_decode($response));
-                
                 return true;
                 
             }   
         }catch (Exception $e) {
             
             $verror= 'Excepción capturada: '.$e->getMessage()."\n";
-            
+            $this->_dpt->GuardarLog("EDIBLE","PO_UnlockPurchaseOrder","ERR",$error,NULL);
             return false;
             
         }//fin: try             
     }    
-    
+    //=======================================================================================================    
     public function EnviarOrdenesRecibidas($data, $verror){
        try{
             $curl = curl_init();
@@ -274,7 +281,7 @@ class edible
               CURLOPT_TIMEOUT => 30,
               CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
               CURLOPT_CUSTOMREQUEST => "PUT",
-              CURLOPT_POSTFIELDS => json_encode($data),
+              CURLOPT_POSTFIELDS => $data,
               CURLOPT_HTTPHEADER => array(
                 "authorization: ".$this->token,
                 "cache-control: no-cache",
@@ -288,17 +295,49 @@ class edible
             
             curl_close($curl);
             
-            echo json_encode($response);
-            echo "</br>";
-            
+            $ret=json_decode($response);
+
+            if (empty($ret)) {
+
+                $blnejecucion=(boolean)false; 
+                
+            }else{
+                
+                try{
+
+                    $blnejecucion=(boolean)$ret->error;   
+                           
+                }catch(Exception $e){
+                    
+                    $verror= 'Excepción capturada: '.$e->getMessage()."\n";
+                    
+                }                
+            }
+
             if ($err) {
+                
               echo "cURL Error #:" . $err;
+              
               return false;
+              
             } else {
-              return true;
+
+              if (($blnejecucion==1)or($blnejecucion==true)){
+                
+                $error=$ret->message;  
+
+                return false;
+                
+              }else{
+
+                return true;
+                
+              }
+              
             }        
        }catch(Exception $e){
             $verror= 'Excepción capturada: '.$e->getMessage()."\n";
+            $this->_dpt->GuardarLog("EDIBLE","EnviarOrdenesRecibidas","ERR",$error,NULL);
             return false;        
        }
     }   

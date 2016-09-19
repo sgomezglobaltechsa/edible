@@ -173,7 +173,7 @@ class depotwms_ing
     public function GetIngresosAInformar($cliente_id, &$data, &$verror){
         try { 
             
-            $query = "select lineID, poNumber, quantity, receiveUom, weight, weightUom, date  from dbo.view_trans_edi_recepciones where poClienteId=?";
+            $query = "select lineID, poNumber, quantity, receiveUom, weight, weightUom, convert(varchar,date,127) as date  from dbo.view_trans_edi_recepciones where poClienteId=?";
             
             $params=array($cliente_id);
             
@@ -184,11 +184,7 @@ class depotwms_ing
                 die( print_r( sqlsrv_errors(), true) );
                 
             }
-            /*
-            while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_NUMERIC) ) {
-                  echo $row[0].", ".$row[1]."<br />";
-            }*/
-            
+
             return true;
         }
         catch (exception $e) {

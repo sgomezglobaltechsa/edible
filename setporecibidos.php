@@ -47,6 +47,8 @@ $edi->SetUsuario($login);
 
 $edi->SetPassword($password);
 
+$edi->SetDpt($dpt);
+
 $dpt->Session($session);
 
 $json = array();
@@ -74,20 +76,40 @@ if ($retorno==true){
     do {
         
          while ($row = sqlsrv_fetch_array($rdata, SQLSRV_FETCH_ASSOC)) {
-            
-            //$json[] = $row;
-            
+
             $lineId=$row ["lineID"];
+            $poNumber=$row ["poNumber"];
+            $quant=$row ["quantity"];
+            $receiveUom=$row ["receiveUom"];
+            $weight=$row ["weight"];
+            $weightUom=$row ["weightUom"];
+            $date=(string)$row ["date"];
+            /*{==============================================================================
+              "lineId": "00531937",
+              "poNumber": "023794",
+              "quantity": 935,
+              "receiveUom": "CS",
+              "weight": 0,
+              "weightUom": "CS",
+              "date": "2016-09-16T09:37:58.2400000+00:00"
+            } ===============================================================================*/
+            $datos="{\r\n  \"lineId\": \"".$lineId."\",\r\n \"poNumber\": \"".$poNumber."\",\r\n \"quantity\": ".$quant.",\r\n \"receiveUom\": \"".$receiveUom."\",\r\n \"weight\": ".$weight.",\r\n \"weightUom\": \"".$weightUom."\",\r\n \"date\": \"".$date."\"\r\n}";
             
-            $gen->printsc($lineId, true);
+            //Me aseguro que este lockeada la PO para evitar algun posible error.
+            $edi->PO_lockPurchaseOrder($poNumber, $verror);
             
-            if ($edi->EnviarOrdenesRecibidas($row, $verror)==true){
+            $ret=(boolean)$edi->EnviarOrdenesRecibidas($datos, $verror);
+            
+            if ($ret=="1"){
                 
                 $dpt->MarcarDevolucion($poCliente, $lineId);
                 
+                $dpt->GuardarLog("PO-EDIBLE-DEVOLUCION", "EnviarOrdenesRecibidas", "OK", $lineId, $poNumber);
+                
             }else{
                 
-                $dpt->GuardarLog("PO-EDIBLE-DEVOLUCION", "EnviarOrdenesRecibidas", "ERR", $verror, "");
+                $dpt->GuardarLog("PO-EDIBLE-DEVOLUCION", "EnviarOrdenesRecibidas", "ERR", $verror, $poNumber);
+                
             }
             
             $num++;
@@ -109,5 +131,5 @@ unset($dpt);
 unset($gen);
 
 echo "<script languaje='javascript' type='text/javascript'>window.close();</script>";
-$this->
+
 ?>
