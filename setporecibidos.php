@@ -101,13 +101,13 @@ if ($retorno==true){
             $ret=(boolean)$edi->EnviarOrdenesRecibidas($datos, $verror);
             
             if ($ret=="1"){
-                echo "1:</br>";
+       
                 $dpt->MarcarDevolucion($poCliente, $lineId);
-                echo "2:</br>";
+
                 $dpt->GuardarLog("PO-EDIBLE-DEVOLUCION", "EnviarOrdenesRecibidas", "OK", $lineId, $poNumber);
                 
             }else{
-                echo "3:</br>";
+ 
                 $dpt->GuardarLog("PO-EDIBLE-DEVOLUCION", "EnviarOrdenesRecibidas", "ERR", $verror, $poNumber);
                 
             }
