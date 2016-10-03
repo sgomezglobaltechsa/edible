@@ -62,6 +62,8 @@ if ($edi->GetToken($verror) == false) {
 
 } //fin: if($edi->GetToken($verror)
 
+$edi->PO_lockPurchaseOrder($poNumber, $verror);
+/*
 //=================================================================================
 //Obtengo las po del w.s. Rest.
 //=================================================================================
@@ -148,17 +150,17 @@ if ($edi->GetPO_Orders($POrders, $verror) == false) {
         } //fin: try
         
         //Para debug, interrupcion de la interfaz para desarrollo.
-        /*
-        if ($i == 2) {
+   
+        if ($i == 1) {
 
             break;
 
         } //fin: if($i==1)
-        */
+        
     } //fin: for($i=0; $i<$POrders; $i++)
 
 } //fin: if($edi->GetPO_Orders($POrders, $verror)==false)
-
+*/
 //=======================================================================================================
 //Destruccion de objetos.
 //=======================================================================================================

@@ -12,3 +12,13 @@ delete from SYS_INT_DET_DOCUMENTO where doc_ext in(select doc_ext from SYS_INT_D
 delete from SYS_INT_DOCUMENTO where doc_ext in(select doc_ext from SYS_INT_DOCUMENTO where ORDEN_DE_COMPRA in(select ref_1 from LOG_PROCESOS));
 delete from LOG_PROCESOS;
 
+select	lineID, poNumber, quantity, receiveUom, weight, weightUom, date  
+from	dbo.view_trans_edi_recepciones 
+where	poClienteId='PAPIER'
+
+
+SELECT FLG_MOVIMIENTO FROM SYS_DEV_DET_DOCUMENTO WHERE CUSTOMS_1='00289416'
+
+UPDATE SYS_DEV_DET_DOCUMENTO SET FLG_MOVIMIENTO='0' WHERE DOC_EXT in ('20169191217490')--('20169151759228','20169151759227')
+
+SELECT * FROM LOG_PROCESOS ORDER BY 1 DESC

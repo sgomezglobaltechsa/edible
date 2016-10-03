@@ -18,13 +18,6 @@ Begin
 	declare @msg_suc	varchar(1000)
 	begin try
 
-		set @comando=	'EXEC DBO.TRANS_EDI_INS_CABECERA' 
-						+ char(39) + @poCliente		+ char(39) + ', ' 
-						+ char(39) + @doc_ext		+ char(39) + ', ' 
-						+ char(39) + @poNumber		+ char(39) + ', '
-						+ char(39) + @poVendorID	+ char(39) + ', '
-						+ char(39) + @poCompany		+ char(39) + ', '
-						+ char(39) + @session		+ char(39)
 		
 		set @msg_suc='SE CREO EL AGENTE ' + @poCompany + ', CON EL ID ' + @poVendorId;
 		
@@ -44,7 +37,7 @@ Begin
 					'0',
 					'PROVEEDOR');
 
-			EXEC DBO.INS_LOG_PROCESO 'TRANS_EDI_INS_CABECERA',@comando,'OK', @msg_suc,@poNumber, @session		
+			EXEC DBO.INS_LOG_PROCESO @doc_ext, null, 'TRANS_EDI_INS_CABECERA',@comando,'OK', @msg_suc,@poNumber, @session		
 			
 		end
 
@@ -56,13 +49,11 @@ Begin
 				@doc_ext,
 				@poCompany);
 
-
-
 	end try
 	begin catch
 		--Guardo Error en tabla de logs.
 		set @error=cast(ERROR_MESSAGE() as varchar(4000));
-		EXEC DBO.INS_LOG_PROCESO	'TRANS_EDI_INS_CABECERA',@comando,'ERR',@error ,@poNumber, @session	
+		EXEC DBO.INS_LOG_PROCESO @doc_ext, null, 'TRANS_EDI_INS_CABECERA',@comando,'ERR', @error  ,@poNumber, @session	
 	end catch
 end
 

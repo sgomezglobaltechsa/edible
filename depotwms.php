@@ -196,9 +196,9 @@ class depotwms_ing
     public function GuardarLog($proceso, $funcion, $estado, $error, $ref1){
         try {
 
-            $params=array($proceso, $funcion, $estado, $error, $ref1, &$this->_session);
+            $params=array(null, null, $proceso, $funcion, $estado, $error, $ref1, &$this->_session, null);
 
-            $query= $this->_nombre_db.".DBO.INS_LOG_PROCESO ?, ?, ?, ?, ?, ?";
+            $query= $this->_nombre_db.".DBO.INS_LOG_PROCESO ?, ?, ?, ?, ?, ?, ?, ?, ?";
 
             $result = sqlsrv_query($this->_conn, $query, $params);
             

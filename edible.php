@@ -293,13 +293,40 @@ class edible
             
             $err = curl_error($curl);
             
+            $ee  = curl_getinfo($curl);
+            
             curl_close($curl);
             
             $ret=json_decode($response);
+            
+            //------------------------------------
+            //Recupero el valor de respuesta de la pagina, si esta en el rango de los 200 esta todo bien.
+            //------------------------------------
+            $http_code=$ee['http_code'];  
 
+            switch ($http_code){
+                case 201:
+                    $http_code=200;
+                    break;
+                case 202:
+                    $http_code=200;
+                    break;
+                case 203:
+                    $http_code=200;
+                    break;
+                case 204:
+                    $http_code=200;
+                    break;
+            }
+
+
+            
             if (empty($ret)) {
-
-                $blnejecucion=(boolean)false; 
+                
+                if ($http_code==200){
+                    
+                    $blnejecucion=(boolean)false;     
+                }
                 
             }else{
                 
