@@ -1,0 +1,12 @@
+C:\Work\_GIT GUB\edible\WebContainer\WebContainer\obj\Release\ResolveAssemblyReference.cache
+C:\Work\_GIT GUB\edible\WebContainer\WebContainer\obj\Release\WebContainer.fContenedor.resources
+C:\Work\_GIT GUB\edible\WebContainer\WebContainer\obj\Release\WebContainer.Resources.resources
+C:\Work\_GIT GUB\edible\WebContainer\WebContainer\obj\Release\WebContainer.vbproj.GenerateResource.Cache
+C:\Work\_GIT GUB\edible\WebContainer\WebContainer\bin\Release\Config.ini
+C:\Work\_GIT GUB\edible\WebContainer\WebContainer\bin\Release\WebContainer.exe.config
+C:\Work\_GIT GUB\edible\WebContainer\WebContainer\bin\Release\WebContainer.exe
+C:\Work\_GIT GUB\edible\WebContainer\WebContainer\bin\Release\WebContainer.pdb
+C:\Work\_GIT GUB\edible\WebContainer\WebContainer\bin\Release\WebContainer.xml
+C:\Work\_GIT GUB\edible\WebContainer\WebContainer\obj\Release\WebContainer.exe
+C:\Work\_GIT GUB\edible\WebContainer\WebContainer\obj\Release\WebContainer.xml
+C:\Work\_GIT GUB\edible\WebContainer\WebContainer\obj\Release\WebContainer.pdb
