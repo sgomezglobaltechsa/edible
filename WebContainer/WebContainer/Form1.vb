@@ -14,8 +14,8 @@ Public Class fContenedor
         Select Case cmd
             Case "/GETPO"
                 WB.Navigate(My.Settings.GETPO)
-            Case "/SETPO"
-                WB.Navigate(My.Settings.SETPO)
+            Case "/SENDPO"
+                WB.Navigate(My.Settings.SENDPO)
             Case Else
                 Application.Exit()
         End Select

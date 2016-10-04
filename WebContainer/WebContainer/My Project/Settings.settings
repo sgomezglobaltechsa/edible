@@ -5,7 +5,7 @@
     <Setting Name="GETPO" Type="System.String" Scope="Application">
       <Value Profile="(Default)">http://127.0.0.1/test.php</Value>
     </Setting>
-    <Setting Name="SETPO" Type="System.String" Scope="User">
+    <Setting Name="SENDPO" Type="System.String" Scope="Application">
       <Value Profile="(Default)">http://127.0.0.1/test.php</Value>
     </Setting>
   </Settings>

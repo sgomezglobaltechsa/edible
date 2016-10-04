@@ -63,16 +63,13 @@ Namespace My
             End Get
         End Property
         
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("http://127.0.0.1/test.php")>  _
-        Public Property SETPO() As String
+        Public ReadOnly Property SENDPO() As String
             Get
-                Return CType(Me("SETPO"),String)
+                Return CType(Me("SENDPO"),String)
             End Get
-            Set
-                Me("SETPO") = value
-            End Set
         End Property
     End Class
 End Namespace
