@@ -130,6 +130,6 @@ unset($dpt);
 
 unset($gen);
 
-echo "<script languaje='javascript' type='text/javascript'>window.close();</script>";
+echo "##FIN##";
 
 ?>

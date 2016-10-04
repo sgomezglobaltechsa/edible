@@ -10,8 +10,7 @@ Public Class fContenedor
 
 
     Private Sub fContenedor_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        Dim cmd As String = Command(), CONF As String
-
+        Dim cmd As String = Command()
         Select Case cmd
             Case "/GETPO"
                 WB.Navigate(My.Settings.GETPO)
