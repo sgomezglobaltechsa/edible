@@ -263,7 +263,55 @@ class depotwms_ing
             $verror = 'Excepción capturada: ' . $e->getMessage() . "\n";
             return false;
         } //fin: try
-    }       
+    } 
+    //==============================================================================================================================
+    public function clsTf_po_proc(){
+        try {
+
+            $query= "delete from dbo.tf_po_proc";
+
+            $result = sqlsrv_query($this->_conn, $query, null);
+            
+            if( !$result ) {
+                
+                die( print_r( sqlsrv_errors(), true));
+                
+            }           
+            
+            return true;
+        }
+        catch (exception $e) {
+            $verror = 'Excepción capturada: ' . $e->getMessage() . "\n";
+            return false;
+        } //fin: try            
+    }    
+    //==============================================================================================================================
+    public function clsTf_po_NoProcesadas($poCliente){
+        try {
+
+            $params=array(&$poCliente);
+            echo "1</br>";
+            
+            $query= $this->_nombre_db.".dbo.TF_LIMPIAPO_NOPROCESADAS ?";
+
+            echo "2</br>";
+            
+            $result = sqlsrv_query($this->_conn, $query, $params);
+            echo "3</br>";
+            
+            if( !$result ) {
+                echo "4</br>";
+                die( print_r( sqlsrv_errors(), true));
+                
+            }           
+            echo "5</br>";
+            return true;
+        }
+        catch (exception $e) {
+            $verror = 'Excepción capturada: ' . $e->getMessage() . "\n";
+            return false;
+        } //fin: try            
+    }              
 }
 
 ?>

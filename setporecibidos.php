@@ -130,6 +130,6 @@ unset($dpt);
 
 unset($gen);
 
-echo "##FIN##";
+echo "##FIN_PROCESO##";
 
 ?>

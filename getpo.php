@@ -62,8 +62,7 @@ if ($edi->GetToken($verror) == false) {
 
 } //fin: if($edi->GetToken($verror)
 
-$edi->PO_lockPurchaseOrder($poNumber, $verror);
-/*
+
 //=================================================================================
 //Obtengo las po del w.s. Rest.
 //=================================================================================
@@ -76,6 +75,9 @@ if ($edi->GetPO_Orders($POrders, $verror) == false) {
 
     $POrders = json_decode($POrders);
 
+    //Limpio la tabla de los registros_procesados.
+    $dpt->clsTf_po_proc();
+    
     //Loop de las po
     for ($i = 0; $i < $POrders; $i++) {
 
@@ -160,7 +162,8 @@ if ($edi->GetPO_Orders($POrders, $verror) == false) {
     } //fin: for($i=0; $i<$POrders; $i++)
 
 } //fin: if($edi->GetPO_Orders($POrders, $verror)==false)
-*/
+
+$dpt->clsTf_po_NoProcesadas($poCliente);
 //=======================================================================================================
 //Destruccion de objetos.
 //=======================================================================================================
@@ -170,6 +173,6 @@ unset($dpt);
 
 unset($gen);
 
-echo "##FIN##";
+echo "##FIN_PROCESO##";
 
 ?>

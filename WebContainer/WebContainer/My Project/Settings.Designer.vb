@@ -56,7 +56,7 @@ Namespace My
         
         <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("http://127.0.0.1/test.php")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("127.0.0.1/edible/getpo.php")>  _
         Public ReadOnly Property GETPO() As String
             Get
                 Return CType(Me("GETPO"),String)
